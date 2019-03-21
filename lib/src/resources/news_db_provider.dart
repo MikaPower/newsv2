@@ -1,3 +1,4 @@
+import 'package:news/src/resources/repository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -6,9 +7,11 @@ import 'dart:async';
 import '../models/item_model.dart';
 
 
-class NewsDbProvider{
+class NewsDbProvider implements Source,Cache{
   Database db;
-
+NewsDbProvider(){
+  init();
+}
   void init() async{
 
     //returns a refrence to a folder to our mobile device where we can store
@@ -63,4 +66,9 @@ class NewsDbProvider{
   }
 
 
+  Future<List<int>> fetchTopIds() {
+    return null;
+  }
+
 }
+final newsDbProvider = NewsDbProvider();
