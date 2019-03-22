@@ -6,69 +6,75 @@ import 'package:path/path.dart';
 import 'dart:async';
 import '../models/item_model.dart';
 
-
-class NewsDbProvider implements Source,Cache{
+class NewsDbProvider implements Source, Cache {
   Database db;
-NewsDbProvider(){
-  init();
-}
-  void init() async{
 
+
+  NewsDbProvider() {
+    init();
+  }
+
+  Future<List<int>> fetchTopIds() {
+    return null;
+  }
+
+  void init() async {
+
+    print("iniciei init");
     //returns a refrence to a folder to our mobile device where we can store
-     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-     final path = join(documentsDirectory.path,"items.db");
-     db = await openDatabase(
-         path,
-     version: 1,
-     onCreate: (Database newDb, int version){
-      newDb.execute("""
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    final path = join(documentsDirectory.path, "items.db");
+    db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database newDb, int version) async {
+     await newDb.execute("""
       CREATE TABLE Items
       (
         id INTEGER PRIMARY KEY,
         type TEXT,
         by TEXT,
         time INTEGER,
+        text STRING,
         parent INTEGER,
         kids BLOB,
         dead INTEGER,
         deleted INTEGER,
         url TEXT,
-        score INTEGER.
+        score INTEGER,
         title TEXT,
         descendants INTEGER
       )
       """);
-     },
+      },
     );
+
+
   }
 
   /// Vai buscar item com o id X
   /// retorna item ou null
 
- Future<ItemModel> fetchItem(int id) async{
-  final maps = await db.query(
-        "Items",
-        columns : null,
+  Future<ItemModel> fetchItem(int id) async {
+    final maps = await db.query(
+      "Items",
+      columns: null,
       where: "id = ?",
       whereArgs: [id],
     );
 
-
-  if(maps.length > 0){
-    return ItemModel.fromDb(maps.first); //first because id unique
-  }
-  return null;
-  }
-
-  Future <int> addItem(ItemModel item) {
-   return  db.insert("Items", item.toMapForDb() );
-
-  }
-
-
-  Future<List<int>> fetchTopIds() {
+    if (maps.length > 0) {
+      return ItemModel.fromDb(maps.first); //first because id unique
+    }
     return null;
   }
 
+  Future<int> addItem(ItemModel item) {
+
+    return db.insert(
+        "Items",
+        item.toMapForDb());
+  }
 }
+
 final newsDbProvider = NewsDbProvider();

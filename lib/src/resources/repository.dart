@@ -21,24 +21,24 @@ List<Cache> caches = <Cache>[
   /// se nao tiver ai há api e guardar na base de dados
   Future<ItemModel> fetchItem(int id) async {
     ItemModel item;
-    Source source;
-
+    var source;
     for (source in sources) {
       item = await source.fetchItem(id);
       if(item!=null){
         break;
       }
     }
-    for(var cache in caches){
-      cache.addItem(item);
+    for(var cache in caches) {
+      if (cache != source) {
+        cache.addItem(item);
+      }
+    }
     return item;
   }
 
-
-
 }
 
-}
+
 
 abstract class Source {
   Future<List<int>>fetchTopIds();
