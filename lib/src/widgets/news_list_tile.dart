@@ -24,7 +24,7 @@ class NewsListTile extends StatelessWidget {
             if (!itemSnapshot.hasData) {
               return new Text('Still loading item $itemId');
             }
-            return new Text(itemSnapshot.data.title);
+            return buildTile(itemSnapshot.data);
            // return  buildTile(itemSnapshot.data);
           },
         );
@@ -36,6 +36,12 @@ class NewsListTile extends StatelessWidget {
 return ListTile(
   title: new Text(item.title),
   subtitle: new Text(item.score.toString()+"votes"),
+  trailing: new Column(
+    children: <Widget>[
+      new Icon(Icons.comment),
+      new Text('${item.descendants}'),
+    ],
+  ),
 
 
 );
