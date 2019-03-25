@@ -35,7 +35,7 @@ class Repository {
     return item;
   }
 
-  clearcache() async {
+  clearCache() async {
     for (var cache in caches) {
       await cache.clear();
     }

@@ -29,6 +29,10 @@ class StoriesBloc {
     _topIds.sink.add(ids);
   }
 
+  clearCache(){
+    return _repository.clearCache();
+  }
+
   _itemsTransformer() {
     //adiciona na cache o id que junta ao item model
     return ScanStreamTransformer(
