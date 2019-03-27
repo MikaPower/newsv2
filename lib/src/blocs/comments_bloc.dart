@@ -7,7 +7,6 @@ import '../resources/repository.dart';
 class CommentsBloc {
   final _commentsFetcher = PublishSubject<int>();
   final _commentsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
-
   final  _repository = new Repository();
 
   //Stream getters
