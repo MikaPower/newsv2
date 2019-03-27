@@ -25,6 +25,7 @@ class CommentsBloc {
     //entra int, sai Map
     return ScanStreamTransformer<int, Map<int,Future<ItemModel>>>(
         (cache,int id, index){
+          print(index);
               cache[id]= _repository.fetchItem(id);
 
               //after receiving future
